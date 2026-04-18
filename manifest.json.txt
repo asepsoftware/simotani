@@ -1,0 +1,16 @@
+{
+  "name": "AgriSmart IoT - Simotani",
+  "short_name": "Simotani",
+  "description": "Dashboard Monitoring Hidroponik Real-time",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#10b981",
+  "icons": [
+    {
+      "src": "logo_simotani.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
