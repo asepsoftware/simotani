@@ -32,6 +32,16 @@
         main { max-width: 420px; margin: 0 auto; }
     }
   </style>
+  <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#10b981">
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js')
+      .then(() => console.log("Simotani Ready!"))
+      .catch((err) => console.log("PWA Error", err));
+  }
+</script>
 </head>
 <body class="flex justify-center md:justify-start min-h-screen text-slate-800">
 
