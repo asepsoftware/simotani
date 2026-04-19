@@ -1,4 +1,4 @@
-const CACHE_NAME = 'simotani-v1';
+const CACHE_NAME = 'simotani-smknkundur';
 const assets = [
   './',
   './index.html',
