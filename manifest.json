@@ -1,7 +1,7 @@
 {
   "name": "SMKNKUNDUR - Simotani",
   "short_name": "Simotani",
-  "description": "Dashboard Monitoring Hidroponik Real-time",
+  "description": "Dashboard Monitoring Simotani Real-time",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
