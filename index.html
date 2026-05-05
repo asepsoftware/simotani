@@ -285,7 +285,7 @@
         const name = document.getElementById('report-name').value;
         const cat = document.getElementById('report-cat').value;
         const msg = document.getElementById('report-msg').value;
-        const phone = "083838280427"; // GANTI DENGAN NOMOR WA KAMU
+        const phone = "+62838-3828-0427"; // GANTI DENGAN NOMOR WA KAMU
         if(!name || !msg) return alert("Lengkapi data!");
         window.open(`https://wa.me/${phone}?text=*ADUAN SIMOTANI*%0A*Nama:* ${name}%0A*Hal:* ${cat}%0A*Pesan:* ${msg}`, '_blank');
     }
