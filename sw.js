@@ -1,4 +1,4 @@
-const CACHE_NAME = 'simotani-smknkundur';
+const CACHE_NAME = 'simotani-v1';
 const assets = [
   './',
   './index.html',
@@ -6,18 +6,25 @@ const assets = [
   './logo_simotani.png'
 ];
 
-self.addEventListener('install', (e) => {
-  e.waitUntil(
+// Install Service Worker
+self.addEventListener('install', (event) => {
+  event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(assets);
     })
   );
 });
 
-self.addEventListener('fetch', (e) => {
-  e.respondWith(
-    caches.match(e.request).then((res) => {
-      return res || fetch(e.request);
+// Fetch Service Worker
+self.addEventListener('fetch', (event) => {
+  // Jangan cache request ke Firebase agar data sensor tetap update
+  if (event.request.url.includes('googleapis.com')) {
+    return;
+  }
+
+  event.respondWith(
+    caches.match(event.request).then((response) => {
+      return response || fetch(event.request);
     })
   );
 });
