@@ -32,16 +32,6 @@
         main { max-width: 420px; margin: 0 auto; }
     }
   </style>
-  <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#10b981">
-
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js')
-      .then(() => console.log("Simotani Ready!"))
-      .catch((err) => console.log("PWA Error", err));
-  }
-</script>
 </head>
 <body class="flex justify-center md:justify-start min-h-screen text-slate-800">
 
@@ -55,13 +45,16 @@
 
     <nav class="flex flex-col space-y-2 flex-1">
       <button onclick="switchPage('dashboard')" id="nav-dashboard" class="nav-btn active flex items-center space-x-3 w-full p-3 rounded-2xl transition-all">
-        <i data-lucide="layout-dashboard" class="w-5 h-5"></i><span class="l-dash">Beranda</span>
+        <i data-lucide="layout-dashboard" class="w-5 h-5"></i><span>Beranda</span>
       </button>
       <button onclick="switchPage('monitoring')" id="nav-monitoring" class="nav-btn flex items-center space-x-3 w-full p-3 rounded-2xl text-slate-500 hover:bg-slate-50 transition-all">
-        <i data-lucide="database" class="w-5 h-5"></i><span class="l-mon">Riwayat Data</span>
+        <i data-lucide="database" class="w-5 h-5"></i><span>Riwayat Data</span>
+      </button>
+      <button onclick="switchPage('support')" id="nav-support" class="nav-btn flex items-center space-x-3 w-full p-3 rounded-2xl text-slate-500 hover:bg-slate-50 transition-all">
+        <i data-lucide="message-square" class="w-5 h-5"></i><span>Pengaduan</span>
       </button>
       <button onclick="switchPage('settings')" id="nav-settings" class="nav-btn flex items-center space-x-3 w-full p-3 text-slate-500 hover:bg-slate-50 rounded-2xl transition-all">
-        <i data-lucide="settings" class="w-5 h-5"></i><span class="l-set">Pengaturan</span>
+        <i data-lucide="settings" class="w-5 h-5"></i><span>Pengaturan</span>
       </button>
     </nav>
   </aside>
@@ -79,7 +72,7 @@
     <section id="page-dashboard" class="px-6 md:px-10 pt-6 space-y-6">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
         <div class="glass-card p-5 border-l-4 border-blue-500">
-          <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1 l-temp">Suhu Air</p>
+          <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1">Suhu Air</p>
           <h3 class="text-3xl font-bold text-slate-800"><span id="temp-val">--</span><small class="text-lg">°C</small></h3>
           <div id="temp-stat" class="text-[10px] mt-2 font-bold text-emerald-500">● MENGAMBIL DATA...</div>
         </div>
@@ -97,12 +90,12 @@
 
       <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
         <div class="glass-card md:col-span-4 p-8 flex flex-col items-center">
-            <h3 class="text-xs font-bold text-slate-400 uppercase mb-8 w-full">Kendali Jarak Jauh</h3>
+            <h3 class="text-xs font-bold text-slate-400 uppercase mb-8 w-full text-left">Kendali Jarak Jauh</h3>
             <div class="flex flex-col space-y-8 w-full">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-bold text-slate-700">Pompa Nutrisi</p>
-                        <span id="pump-text" class="text-[10px] text-slate-400 font-bold">MATI</span>
+                        <span id="pump-text" class="text-[10px] text-slate-400 font-bold uppercase">Mati</span>
                     </div>
                     <button onclick="togglePump()" id="pump-btn" class="w-14 h-14 rounded-full bg-slate-100 border-2 border-slate-200 flex items-center justify-center transition-all duration-300">
                         <i id="pump-icon" data-lucide="droplet" class="w-6 h-6 text-slate-400"></i>
@@ -111,7 +104,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-bold text-slate-700">Lampu UV</p>
-                        <span id="light-text" class="text-[10px] text-slate-400 font-bold">MATI</span>
+                        <span id="light-text" class="text-[10px] text-slate-400 font-bold uppercase">Mati</span>
                     </div>
                     <button onclick="toggleLight()" id="light-btn" class="w-14 h-14 rounded-full bg-slate-100 border-2 border-slate-200 flex items-center justify-center transition-all duration-300">
                         <i id="light-icon" data-lucide="sun" class="w-6 h-6 text-slate-400"></i>
@@ -151,6 +144,36 @@
       </div>
     </section>
 
+    <section id="page-support" class="hidden-section px-6 md:px-10 pt-6">
+      <div class="glass-card p-8 space-y-6 border-l-4 border-emerald-500">
+        <div>
+            <h3 class="text-xl font-bold text-slate-900">Layanan Konsultasi & Pengaduan</h3>
+            <p class="text-xs text-slate-400 mt-1">Sampaikan kendala sistem atau konsultasi langsung ke admin.</p>
+        </div>
+        <div class="space-y-4">
+            <div>
+                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Nama Pelapor</label>
+                <input id="report-name" type="text" placeholder="Nama lengkap Anda..." class="w-full p-4 mt-1 rounded-2xl bg-slate-50 border border-slate-200 outline-none text-sm">
+            </div>
+            <div>
+                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Kategori Kendala</label>
+                <select id="report-cat" class="w-full p-4 mt-1 rounded-2xl bg-slate-50 border border-slate-200 outline-none text-sm font-medium">
+                    <option value="Sistem IoT Error">Sistem IoT Error</option>
+                    <option value="Konsultasi Tanaman">Konsultasi Tanaman</option>
+                    <option value="Masalah Nutrisi">Masalah Nutrisi / pH</option>
+                </select>
+            </div>
+            <div>
+                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Detail Laporan</label>
+                <textarea id="report-msg" rows="4" placeholder="Jelaskan detail masalah..." class="w-full p-4 mt-1 rounded-2xl bg-slate-50 border border-slate-200 outline-none text-sm"></textarea>
+            </div>
+            <button onclick="sendReport()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-2xl font-bold text-sm shadow-lg shadow-emerald-200 transition-all flex items-center justify-center gap-2">
+                <i data-lucide="send" class="w-4 h-4"></i> KIRIM KE WHATSAPP ADMIN
+            </button>
+        </div>
+      </div>
+    </section>
+
     <section id="page-settings" class="hidden-section px-6 md:px-10 pt-6">
       <div class="glass-card p-8 space-y-6">
         <h3 class="text-lg font-bold">Konfigurasi Dashboard</h3>
@@ -160,13 +183,6 @@
               <input id="new-device-input" type="text" placeholder="Ganti Nama Node..." class="w-full p-4 rounded-2xl bg-slate-50 border border-slate-200 outline-none text-sm font-mono">
               <button onclick="updateDeviceName()" class="w-full mt-2 bg-blue-600 text-white py-3 rounded-2xl font-bold text-xs">SIMPAN PERUBAHAN</button>
             </div>
-            <div class="space-y-2">
-              <label class="text-[10px] font-black text-slate-400 uppercase">Bahasa Antarmuka</label>
-              <select onchange="changeLanguage(this.value)" class="w-full p-4 rounded-2xl bg-slate-50 border border-slate-200 outline-none text-sm font-bold">
-                <option value="id">Bahasa Indonesia</option>
-                <option value="en">English (Global)</option>
-              </select>
-            </div>
         </div>
       </div>
     </section>
@@ -174,187 +190,109 @@
     <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-slate-100 px-8 py-4 z-50 flex justify-between items-center max-w-[420px] mx-auto shadow-2xl text-slate-400">
         <button onclick="switchPage('dashboard')" id="mob-dash" class="text-blue-600"><i data-lucide="layout-dashboard"></i></button>
         <button onclick="switchPage('monitoring')" id="mob-mon"><i data-lucide="database"></i></button>
+        <button onclick="switchPage('support')" id="mob-sup"><i data-lucide="message-square"></i></button>
         <button onclick="switchPage('settings')" id="mob-set"><i data-lucide="settings"></i></button>
     </nav>
   </main>
 
   <script>
-    // ==========================================
-    // 1. CONFIGURATION & INITIALIZATION
-    // ==========================================
-    
-    // 🟢 MASUKKAN DATA FIREBASE KAMU DI SINI 🟢
-   const firebaseConfig = {
-  apiKey: "AIzaSyCMz2DBh-2PdNqjY9Kkcofp2cEPOBCeFb0",
-  authDomain: "simotani-edd71.firebaseapp.com",
-  databaseURL: "https://simotani-edd71-default-rtdb.firebaseio.com",
-  projectId: "simotani-edd71",
-  storageBucket: "simotani-edd71.firebasestorage.app",
-  messagingSenderId: "642240072989",
-  appId: "1:642240072989:web:dcb26c2405040fcc21e5f4",
-  measurementId: "G-HCPVRYXTJ8"
-};
+    // 1. CONFIGURATION
+    const firebaseConfig = {
+      apiKey: "AIzaSyCMz2DBh-2PdNqjY9Kkcofp2cEPOBCeFb0",
+      authDomain: "simotani-edd71.firebaseapp.com",
+      databaseURL: "https://simotani-edd71-default-rtdb.firebaseio.com",
+      projectId: "simotani-edd71",
+      storageBucket: "simotani-edd71.firebasestorage.app",
+      messagingSenderId: "642240072989",
+      appId: "1:642240072989:web:dcb26c2405040fcc21e5f4"
+    };
 
-    // Aktifkan ini jika Firebase sudah siap
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-
-    let isPumpOn = false;
-    let isLightOn = false;
-    let deviceId = "device_01"; // ID Alat di Firebase
-    let chartInstance;
+    let isPumpOn = false, isLightOn = false, deviceId = "device_01", chartInstance;
 
     lucide.createIcons();
 
-    // ==========================================
-    // 2. FIREBASE REAL-TIME LISTENERS
-    // ==========================================
-    
-    // Dengerin Data Sensor
+    // 2. LISTENERS
     db.ref(deviceId + "/sensor").on("value", (snapshot) => {
         const data = snapshot.val();
-        if(data) {
-            updateSensorUI(data);
-            updateChartAndTable(data);
-        }
+        if(data) { updateSensorUI(data); updateChartAndTable(data); }
     });
 
-    // Dengerin Status Kontrol (Pompa & Lampu)
     db.ref(deviceId + "/control").on("value", (snapshot) => {
         const ctrl = snapshot.val();
-        if(ctrl) {
-            isPumpOn = ctrl.pump;
-            isLightOn = ctrl.light;
-            renderControlUI();
-        }
+        if(ctrl) { isPumpOn = ctrl.pump; isLightOn = ctrl.light; renderControlUI(); }
     });
 
-    // ==========================================
-    // 3. UI FUNCTIONS
-    // ==========================================
-
+    // 3. CORE FUNCTIONS
     function updateSensorUI(data) {
         document.getElementById('temp-val').innerText = data.temp || "--";
         document.getElementById('ph-val').innerText = data.ph || "--";
         document.getElementById('tds-val').innerText = data.tds || "--";
-        
-        // Status Indikator (Contoh Logic)
-        checkStatus('temp', data.temp, 20, 30);
-        checkStatus('ph', data.ph, 5.5, 7.5);
-        checkStatus('tds', data.tds, 500, 1200);
-    }
-
-    function checkStatus(id, val, min, max) {
-        const el = document.getElementById(id + '-stat');
-        if(val < min || val > max) {
-            el.innerText = "● TIDAK NORMAL"; el.classList.replace('text-emerald-500', 'text-red-500');
-        } else {
-            el.innerText = "● NORMAL"; el.classList.replace('text-red-500', 'text-emerald-500');
-        }
     }
 
     function renderControlUI() {
-        // Render Pompa
-        const pBtn = document.getElementById('pump-btn');
-        const pIcon = document.getElementById('pump-icon');
-        const pText = document.getElementById('pump-text');
-        if(isPumpOn) {
-            pBtn.classList.add('pump-active'); pIcon.classList.replace('text-slate-400', 'text-white');
-            pText.innerText = "AKTIF"; pText.classList.replace('text-slate-400', 'text-blue-600');
-        } else {
-            pBtn.classList.remove('pump-active'); pIcon.classList.replace('text-white', 'text-slate-400');
-            pText.innerText = "MATI"; pText.classList.replace('text-blue-600', 'text-slate-400');
-        }
+        const pBtn = document.getElementById('pump-btn'), pText = document.getElementById('pump-text');
+        const lBtn = document.getElementById('light-btn'), lText = document.getElementById('light-text');
+        
+        if(isPumpOn) { pBtn.classList.add('pump-active'); pText.innerText = "Aktif"; pText.className = "text-[10px] text-blue-600 font-bold uppercase"; }
+        else { pBtn.classList.remove('pump-active'); pText.innerText = "Mati"; pText.className = "text-[10px] text-slate-400 font-bold uppercase"; }
 
-        // Render Lampu
-        const lBtn = document.getElementById('light-btn');
-        const lIcon = document.getElementById('light-icon');
-        const lText = document.getElementById('light-text');
-        if(isLightOn) {
-            lBtn.classList.add('light-active'); lIcon.classList.replace('text-slate-400', 'text-white');
-            lText.innerText = "AKTIF"; lText.classList.replace('text-slate-400', 'text-amber-500');
-        } else {
-            lBtn.classList.remove('light-active'); lIcon.classList.replace('text-white', 'text-slate-400');
-            lText.innerText = "MATI"; lText.classList.replace('text-amber-500', 'text-slate-400');
-        }
+        if(isLightOn) { lBtn.classList.add('light-active'); lText.innerText = "Aktif"; lText.className = "text-[10px] text-amber-500 font-bold uppercase"; }
+        else { lBtn.classList.remove('light-active'); lText.innerText = "Mati"; lText.className = "text-[10px] text-slate-400 font-bold uppercase"; }
+        lucide.createIcons();
     }
 
-    // ==========================================
-    // 4. ACTION FUNCTIONS
-    // ==========================================
-
-    function togglePump() {
-        db.ref(deviceId + "/control").update({ pump: !isPumpOn });
-    }
-
-    function toggleLight() {
-        db.ref(deviceId + "/control").update({ light: !isLightOn });
-    }
+    function togglePump() { db.ref(deviceId + "/control").update({ pump: !isPumpOn }); }
+    function toggleLight() { db.ref(deviceId + "/control").update({ light: !isLightOn }); }
 
     function switchPage(page) {
         document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden-section'));
         document.getElementById('page-' + page).classList.remove('hidden-section');
         
-        // Nav Desktop
+        // Nav Style
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('nav-' + page).classList.add('active');
+        if(document.getElementById('nav-' + page)) document.getElementById('nav-' + page).classList.add('active');
 
-        // Nav Mobile
-        const mObs = ['mob-dash', 'mob-mon', 'mob-set'];
-        mObs.forEach(id => document.getElementById(id).classList.remove('text-blue-600'));
-        const activeMob = (page === 'dashboard') ? 'mob-dash' : (page === 'monitoring') ? 'mob-mon' : 'mob-set';
+        // Mobile Style
+        ['mob-dash', 'mob-mon', 'mob-set', 'mob-sup'].forEach(id => document.getElementById(id).classList.remove('text-blue-600'));
+        const activeMob = (page === 'dashboard') ? 'mob-dash' : (page === 'monitoring') ? 'mob-mon' : (page === 'settings') ? 'mob-set' : 'mob-sup';
         document.getElementById(activeMob).classList.add('text-blue-600');
     }
 
-    // ==========================================
-    // 5. DATA & EXPORT FUNCTIONS
-    // ==========================================
-
-    // Chart Initialization
+    // 4. CHART & EXCEL
     const ctx = document.getElementById('tdsChart').getContext('2d');
     chartInstance = new Chart(ctx, {
       type: 'line',
-      data: { labels: [], datasets: [{ data: [], borderColor: '#3B82F6', backgroundColor: 'rgba(59, 130, 246, 0.05)', fill: true, tension: 0.4, pointRadius: 2 }] },
-      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { grid: { color: '#f1f5f9' } } } }
+      data: { labels: [], datasets: [{ data: [], borderColor: '#3B82F6', fill: true, tension: 0.4 }] },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
     });
 
     function updateChartAndTable(data) {
         const now = new Date().toLocaleTimeString('id-ID', { hour12: false });
-        
-        // Update Chart
         chartInstance.data.labels.push(now);
         chartInstance.data.datasets[0].data.push(data.tds);
         if(chartInstance.data.labels.length > 10) { chartInstance.data.labels.shift(); chartInstance.data.datasets[0].data.shift(); }
         chartInstance.update('none');
         document.getElementById('live-clock').innerText = now;
 
-        // Update Table
-        const table = document.getElementById('log-table');
         const row = `<tr class="border-b border-slate-50"><td class="py-4 font-mono">${now}</td><td class="font-bold text-blue-600">${data.temp}°</td><td>${data.ph}</td><td>${data.tds}</td></tr>`;
-        table.innerHTML = row + table.innerHTML;
-        if(table.rows.length > 20) table.deleteRow(20);
+        document.getElementById('log-table').innerHTML = row + document.getElementById('log-table').innerHTML;
     }
 
-    function downloadExcel() {
-        const table = document.getElementById("log-table");
-        if (table.rows.length === 0) return alert("Belum ada data!");
-        
-        const data = [["Waktu", "Suhu", "pH", "TDS"]];
-        for (let row of table.rows) {
-            data.push([row.cells[0].innerText, row.cells[1].innerText, row.cells[2].innerText, row.cells[3].innerText]);
-        }
-        const ws = XLSX.utils.aoa_to_sheet(data);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "Data Hidroponik");
-        XLSX.writeFile(wb, "Laporan_Hidroponik_Asep.xlsx");
+    // 5. SEND REPORT (WHATSAPP)
+    function sendReport() {
+        const name = document.getElementById('report-name').value;
+        const cat = document.getElementById('report-cat').value;
+        const msg = document.getElementById('report-msg').value;
+        const phone = "083838280427"; // GANTI DENGAN NOMOR WA KAMU
+        if(!name || !msg) return alert("Lengkapi data!");
+        window.open(`https://wa.me/${phone}?text=*ADUAN SIMOTANI*%0A*Nama:* ${name}%0A*Hal:* ${cat}%0A*Pesan:* ${msg}`, '_blank');
     }
 
     function updateDeviceName() {
         const val = document.getElementById('new-device-input').value;
-        if(val) {
-            document.getElementById('device-display').innerText = "Alat: " + val;
-            switchPage('dashboard');
-        }
+        if(val) document.getElementById('device-display').innerText = "Alat: " + val;
     }
   </script>
 </body>
