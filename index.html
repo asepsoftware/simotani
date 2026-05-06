@@ -283,6 +283,34 @@
         document.getElementById('log-table').innerHTML = row + document.getElementById('log-table').innerHTML;
     }
 
+    // --- FITUR DOWNLOAD EXCEL ---
+    function downloadExcel() {
+        const table = document.getElementById("log-table");
+        if (table.rows.length === 0) {
+            alert("Belum ada data di tabel untuk diunduh!");
+            return;
+        }
+
+        let data = [];
+        // Header sesuai tabel Simotani
+        data.push(["Waktu", "Suhu (°C)", "pH", "TDS (ppm)"]);
+
+        for (let i = 0; i < table.rows.length; i++) {
+            let row = table.rows[i];
+            data.push([
+                row.cells[0].innerText,
+                row.cells[1].innerText,
+                row.cells[2].innerText,
+                row.cells[3].innerText
+            ]);
+        }
+
+        const worksheet = XLSX.utils.aoa_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Riwayat Simotani");
+        XLSX.writeFile(workbook, "Riwayat_Data_Simotani.xlsx");
+    }
+
     // 5. SEND REPORT (WHATSAPP)
     function sendReport() {
         const name = document.getElementById('report-name').value;
